@@ -12,51 +12,51 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.14902, 0.14902, 0.14902, 1 )
 
-[node name="register" type="Control" parent="."]
+[node name="registro" type="Control" parent="."]
 
-[node name="Label" type="Label" parent="register"]
+[node name="Label" type="Label" parent="registro"]
 margin_left = 170.0
 margin_top = 117.0
 margin_right = 337.0
 margin_bottom = 152.0
 text = "Registrarse"
 
-[node name="email" type="LineEdit" parent="register"]
+[node name="email" type="LineEdit" parent="registro"]
 margin_left = 170.0
 margin_top = 166.0
 margin_right = 404.0
 margin_bottom = 198.0
 placeholder_text = "Email "
 
-[node name="password" type="LineEdit" parent="register"]
+[node name="password" type="LineEdit" parent="registro"]
 margin_left = 170.0
 margin_top = 218.0
 margin_right = 404.0
 margin_bottom = 250.0
 placeholder_text = "Contraseña "
 
-[node name="conf_password" type="LineEdit" parent="register"]
+[node name="conf_password" type="LineEdit" parent="registro"]
 margin_left = 170.0
 margin_top = 271.0
 margin_right = 404.0
 margin_bottom = 303.0
 placeholder_text = "Confirmar contraseña"
 
-[node name="registrar" type="Button" parent="register"]
+[node name="registrar" type="Button" parent="registro"]
 margin_left = 170.0
 margin_top = 348.0
 margin_right = 360.0
 margin_bottom = 381.0
 text = "Completar registro"
 
-[node name="Label2" type="Label" parent="register"]
+[node name="Label2" type="Label" parent="registro"]
 margin_left = 20.0
 margin_top = 562.0
 margin_right = 157.0
 margin_bottom = 576.0
 text = "¿Ya tiene una cuenta?"
 
-[node name="in_sesion" type="Button" parent="register"]
+[node name="in_sesion" type="Button" parent="registro"]
 margin_left = 183.0
 margin_top = 560.0
 margin_right = 314.0
@@ -112,8 +112,8 @@ text = "Ingresar"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[connection signal="pressed" from="register/registrar" to="." method="_on_registrar_pressed"]
-[connection signal="pressed" from="register/in_sesion" to="." method="_on_in_sesion_pressed"]
+[connection signal="pressed" from="registro/registrar" to="." method="_on_registrar_pressed"]
+[connection signal="pressed" from="registro/in_sesion" to="." method="_on_in_sesion_pressed"]
 [connection signal="pressed" from="login/registrarse" to="." method="_on_registrarse_pressed"]
 [connection signal="pressed" from="login/ingresar_button" to="." method="_on_ingresar_button_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]

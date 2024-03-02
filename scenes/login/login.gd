@@ -3,11 +3,11 @@ extends Control
 var url = "http://127.0.0.1:5000"
 
 func _ready():
-	$register.visible = false
+	$registro.visible = false
 	$login.visible = true
 
 func comprobar_passwords():
-	if $register/password.text == $register/conf_password.text:
+	if $registro/password.text == $registro/conf_password.text:
 		return true
 	else:
 		return false
@@ -35,21 +35,22 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 
 func _on_registrarse_pressed():
 	$login.visible = false
-	$register.visible = true
+	$registro.visible = true
 
 
 func _on_in_sesion_pressed():
 	$login.visible = true
-	$register.visible = false
+	$registro.visible = false
 
 
 func _on_registrar_pressed():
 	var passwords_coinciden = comprobar_passwords()
 	if passwords_coinciden:
-		var email = $login/email.text
-		var password = $login/password.text
+		var email = $registro/email.text
+		var password = $registro/password.text
 		var use_ssl = false
 		var data_to_send = {"email": email, "password": password}
+		print(data_to_send)
 		var query = JSON.print(data_to_send)
 		var headers = ["Content-Type: application/json"]
 		$HTTPRequest.request(url+'/registro', headers, false, HTTPClient.METHOD_POST, query)
@@ -63,6 +64,7 @@ func _on_ingresar_button_pressed():
 	var use_ssl = false
 	var data_to_send = {"email": email, "password": password}
 	var query = JSON.print(data_to_send)
+
 	var headers = ["Content-Type: application/json"]
 	$HTTPRequest.request(url+'/login', headers, false, HTTPClient.METHOD_POST, query)
 
