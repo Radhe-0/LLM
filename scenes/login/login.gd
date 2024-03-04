@@ -28,7 +28,8 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	
 		elif respuesta["tipo"] == "login":
 			if respuesta["data"] == "credenciales correctas":
-				print("Cambiar escena")
+				Global.email = $login/email.text
+				get_tree().change_scene("res://scenes/main/main.tscn")
 			elif respuesta["data"] == "credenciales incorrectas":
 				print("Credenciales incorrectas")
 
@@ -36,12 +37,17 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 func _on_registrarse_pressed():
 	$login.visible = false
 	$registro.visible = true
+	$registro/email.text = ''
+	$registro/password.text = ''
+	$registro/conf_password.text = ''
 
 
 func _on_in_sesion_pressed():
 	$login.visible = true
 	$registro.visible = false
-
+	$login/email.text = ''
+	$login/password.text = ''
+	
 
 func _on_registrar_pressed():
 	var passwords_coinciden = comprobar_passwords()

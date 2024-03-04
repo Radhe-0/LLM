@@ -110,3 +110,20 @@ margin_right = 555.0
 margin_bottom = 25.0
 text = "Fecha y hora"
 align = 2
+
+[node name="carga" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="carga"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.14902, 0.14902, 0.14902, 1 )
+
+[node name="Label" type="Label" parent="carga"]
+margin_left = 459.0
+margin_top = 295.0
+margin_right = 677.0
+margin_bottom = 378.0
+text = "cargando..."

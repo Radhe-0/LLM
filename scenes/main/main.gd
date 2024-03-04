@@ -24,8 +24,8 @@ func _closed(was_clean = false):
 
 func _connected(_proto = ""):
 	print("A1. Conectado con el servidor")
-	print("A2. Solicitando lista_salas")
-	solicitud_al_servidor("lista_salas", {"":"Se solicita la lista de contactos"})
+	print("A2. Solicitando contactos")
+	solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
 
 func solicitud_al_servidor(accion: String, data: Dictionary):
 	var solicitud = {"accion": accion, "data": data}
@@ -39,6 +39,6 @@ func _handler():
 	var respuesta = JSON.parse(datos_recibidos).result # diccionario
 	
 	if respuesta["tipo"] == "obtener_contactos":
-		print("RESPUESTA RECIBIDA")
+		print(respuesta["data"])
 	elif respuesta["tipo"] == "obtener_estados":
-		print("RESPUESTA RECIBIDA")
+		print("Obteniendo estados...")

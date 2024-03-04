@@ -33,6 +33,7 @@ margin_left = 170.0
 margin_top = 218.0
 margin_right = 404.0
 margin_bottom = 250.0
+secret = true
 placeholder_text = "Contraseña "
 
 [node name="conf_password" type="LineEdit" parent="registro"]
@@ -40,6 +41,7 @@ margin_left = 170.0
 margin_top = 271.0
 margin_right = 404.0
 margin_bottom = 303.0
+secret = true
 placeholder_text = "Confirmar contraseña"
 
 [node name="registrar" type="Button" parent="registro"]
