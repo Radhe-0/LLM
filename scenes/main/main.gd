@@ -23,8 +23,7 @@ func _closed(was_clean = false):
 	set_process(false)
 
 func _connected(_proto = ""):
-	print("A1. Conectado con el servidor")
-	print("A2. Solicitando contactos")
+	solicitud_al_servidor("obtener_nickname", {"email": Global.email})
 	solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
 
 func solicitud_al_servidor(accion: String, data: Dictionary):
@@ -34,11 +33,28 @@ func solicitud_al_servidor(accion: String, data: Dictionary):
 
 ###########################################
 
+func colocar_contactos(contactos): # agregar animacion y foto de cada contacto
+	var nodos_contacto = []
+	# Empezar animacion
+	for contacto in contactos:
+		var contacto_ls = load("res://scenes/contacto_ls/contacto_ls.tscn").instance()
+		contacto_ls.set_nickname_email(contacto[1], contacto[0])
+		nodos_contacto.append(contacto_ls)
+	
+	for nodo in nodos_contacto:
+		$contactos_scroll/VBoxContainer.add_child(nodo)
+	# terminar animacion
+
+
 func _handler():
 	var datos_recibidos = _client.get_peer(1).get_packet().get_string_from_utf8()
 	var respuesta = JSON.parse(datos_recibidos).result # diccionario
 	
 	if respuesta["tipo"] == "obtener_contactos":
-		print(respuesta["data"])
+		colocar_contactos(respuesta["data"])
+	elif respuesta["tipo"] == "obtener_nickname":
+		$nickname.text = respuesta["data"]
+		$email.text = Global.email
+		
 	elif respuesta["tipo"] == "obtener_estados":
 		print("Obteniendo estados...")

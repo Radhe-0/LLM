@@ -13,6 +13,7 @@ anchor_bottom = 1.0
 color = Color( 0.14902, 0.14902, 0.14902, 1 )
 
 [node name="registro" type="Control" parent="."]
+visible = false
 
 [node name="Label" type="Label" parent="registro"]
 margin_left = 170.0
@@ -67,7 +68,6 @@ text = "Iniciar sesión"
 flat = true
 
 [node name="login" type="Control" parent="."]
-visible = false
 
 [node name="Label" type="Label" parent="login"]
 margin_left = 231.0
@@ -81,6 +81,7 @@ margin_left = 234.0
 margin_top = 218.0
 margin_right = 465.0
 margin_bottom = 258.0
+text = "juan@email.com"
 placeholder_text = "Email"
 
 [node name="password" type="LineEdit" parent="login"]
@@ -88,6 +89,8 @@ margin_left = 234.0
 margin_top = 271.0
 margin_right = 465.0
 margin_bottom = 311.0
+text = "contraseña1"
+secret = true
 placeholder_text = "Password"
 
 [node name="registrarse" type="Button" parent="login"]
