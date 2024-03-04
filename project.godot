@@ -18,6 +18,11 @@ config/icon="res://icon.png"
 
 Global="*res://global.gd"
 
+[display]
+
+window/size/width=450
+window/size/height=500
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true

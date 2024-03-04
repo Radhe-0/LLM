@@ -3,6 +3,7 @@ extends Control
 var url = "http://127.0.0.1:5000"
 
 func _ready():
+	
 	$registro.visible = false
 	$login.visible = true
 

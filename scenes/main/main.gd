@@ -5,6 +5,7 @@ var contactos
 var websocket_url = "ws://localhost:8765"
 var _client = WebSocketClient.new()
 func _ready():
+	OS.set_window_size(Vector2(1024, 600))
 	_client.connect("connection_closed", self, "_closed")
 	_client.connect("connection_error", self, "_closed")
 	_client.connect("connection_established", self, "_connected")
@@ -52,7 +53,9 @@ func _handler():
 	
 	if respuesta["tipo"] == "obtener_contactos":
 		colocar_contactos(respuesta["data"])
+	
 	elif respuesta["tipo"] == "obtener_nickname":
+		print("OBTENIDO")
 		$nickname.text = respuesta["data"]
 		$email.text = Global.email
 		

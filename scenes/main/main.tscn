@@ -38,14 +38,14 @@ margin_left = 100.0
 margin_top = 19.0
 margin_right = 309.0
 margin_bottom = 33.0
-text = "Radhesito99"
+text = "..."
 
 [node name="email" type="Label" parent="."]
 margin_left = 100.0
 margin_top = 43.0
 margin_right = 292.0
 margin_bottom = 57.0
-text = "correoelectronico@gmail.com"
+text = "..."
 
 [node name="estado" type="Label" parent="."]
 margin_left = 113.0
