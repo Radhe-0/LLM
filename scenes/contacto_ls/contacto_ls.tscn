@@ -1,25 +1,59 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/contacto_ls/contacto_ls.gd" type="Script" id=1]
+[ext_resource path="res://gontserrat/Gontserrat-Light.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://gontserrat/Gontserrat-Medium.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://gontserrat/Gontserrat-Italic.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+bg_color = Color( 0.145098, 0.145098, 0.164706, 1 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+bg_color = Color( 0.145098, 0.145098, 0.164706, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
+shadow_color = Color( 0, 0, 0, 0.219608 )
+shadow_size = 3
+shadow_offset = Vector2( 0, 3 )
 
 [sub_resource type="Theme" id=4]
 Button/styles/hover = SubResource( 5 )
 Button/styles/normal = SubResource( 3 )
 
+[sub_resource type="DynamicFont" id=7]
+size = 13
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 14
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 13
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 4 )
+
 [node name="contacto_ls" type="Control"]
-margin_right = 371.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 371, 50 )
+margin_right = 344.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 344, 67 )
 script = ExtResource( 1 )
 
 [node name="Button" type="Button" parent="."]
@@ -30,14 +64,24 @@ theme = SubResource( 4 )
 
 [node name="nickname" type="Label" parent="."]
 margin_left = 65.0
-margin_top = 10.0
+margin_top = 7.0
 margin_right = 196.0
 margin_bottom = 28.0
+custom_fonts/font = SubResource( 7 )
 text = "nombre usuario"
 
 [node name="email" type="Label" parent="."]
-margin_left = 65.0
-margin_top = 28.0
-margin_right = 257.0
-margin_bottom = 46.0
+margin_left = 64.0
+margin_top = 24.0
+margin_right = 299.0
+margin_bottom = 45.0
+custom_fonts/font = SubResource( 6 )
 text = "correoelectronico@gmail.com"
+
+[node name="lema" type="Label" parent="."]
+margin_left = 64.0
+margin_top = 43.0
+margin_right = 299.0
+margin_bottom = 64.0
+custom_fonts/font = SubResource( 8 )
+text = "Aquí va el lema"

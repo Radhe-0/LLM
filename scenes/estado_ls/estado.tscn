@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://gontserrat/Gontserrat-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://gontserrat/Gontserrat-Bold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scenes/estado_ls/estado.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0666667, 0.0666667, 0.0705882, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
+
+[sub_resource type="Theme" id=2]
+Panel/styles/panel = SubResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 12
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 13
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 2 )
+
+[node name="estado" type="Control"]
+margin_right = 581.0
+margin_bottom = 131.0
+rect_min_size = Vector2( 581, 131 )
+script = ExtResource( 3 )
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 581, 131 )
+theme = SubResource( 2 )
+
+[node name="estado_label" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 36.0
+margin_right = 569.0
+margin_bottom = 118.0
+custom_fonts/font = SubResource( 3 )
+text = "Estoy agradecido por las oportunidades, la salud y el apoyo de mi familia y amigos. También por los logros en mi carrera. Me encanta aprender y compartir conocimientos en las redes sociales. La vida es un camino lleno de retos y oportunidades, así que siempre mantengo una actitud positiva. #agradecimiento #crecimientopersonal #redessociales #positividad"
+autowrap = true
+
+[node name="usuario" type="Label" parent="."]
+margin_left = 18.0
+margin_top = 11.0
+margin_right = 166.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 4 )
+text = "Lucione Yagami"
+
+[node name="fecha_hora" type="Label" parent="."]
+margin_left = 407.0
+margin_top = 11.0
+margin_right = 555.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 4 )
+text = "Fecha y hora"
+align = 2
+
+[node name="Button" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_default_cursor_shape = 2
+flat = true
