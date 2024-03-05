@@ -14,7 +14,7 @@ func comprobar_passwords():
 		return false
 
 
-func _on_HTTPRequest_request_completed(result, response_code, headers, body):
+func _on_HTTPRequest_request_completed(result, response_code, _headers, body):
 	if response_code != 200:
 		print("Error. Response code: " + str(response_code))
 	else:
@@ -68,7 +68,6 @@ func _on_registrar_pressed():
 func _on_ingresar_button_pressed():
 	var email = $login/email.text
 	var password = $login/password.text
-	var use_ssl = false
 	var data_to_send = {"email": email, "password": password}
 	var query = JSON.print(data_to_send)
 

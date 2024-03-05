@@ -1,39 +1,25 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/contacto_ls/contacto_ls.gd" type="Script" id=1]
 [ext_resource path="res://gontserrat/Gontserrat-Light.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://gontserrat/Gontserrat-Medium.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://gontserrat/Gontserrat-Italic.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://new-moon(1).png" type="Texture" id=5]
-[ext_resource path="res://exclamation.png" type="Texture" id=6]
-[ext_resource path="res://circle16.png" type="Texture" id=7]
+[ext_resource path="res://images/new-moon(1).png" type="Texture" id=5]
+[ext_resource path="res://images/exclamation.png" type="Texture" id=6]
+[ext_resource path="res://images/circle16.png" type="Texture" id=7]
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.145098, 0.145098, 0.164706, 1 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
-
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.145098, 0.145098, 0.164706, 1 )
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 20
-shadow_color = Color( 0, 0, 0, 0.219608 )
+shadow_color = Color( 0, 0, 0, 0.192157 )
 shadow_size = 3
 shadow_offset = Vector2( 0, 3 )
 
 [sub_resource type="Theme" id=4]
-Button/styles/hover = SubResource( 5 )
-Button/styles/normal = SubResource( 3 )
+Panel/styles/panel = SubResource( 9 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 13
@@ -47,23 +33,113 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=8]
-size = 13
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 4 )
+[sub_resource type="Shader" id=13]
+code = "shader_type canvas_item;
+
+uniform float radius_scale: hint_range(0.0, 1.0, 0.1) = 0.1;
+uniform bool rounded_corner_top_left = true;
+uniform bool rounded_corner_top_right = true;
+uniform bool rounded_corner_bottom_left = true;
+uniform bool rounded_corner_bottom_right = true;
+uniform float width = 1.0;
+uniform float height = 1.0;
+uniform float blur_amount: hint_range(0.0, 1.0, 0.1) = 0.1;
+
+void fragment() {
+    vec4 image = texture(TEXTURE, UV);
+    vec2 pos = vec2(UV.x*width, UV.y*height);
+    float radius = min(width, height)*radius_scale/2.0;
+    float dist;
+    float blur = min(width, height)*blur_amount/2.0;
+    
+    // Top left corner
+    if (rounded_corner_top_left) {
+        dist = length(pos - vec2(radius));
+        if (dist > radius && pos.x < radius && pos.y < radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x < radius && pos.y < radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    // Top right corner
+    if (rounded_corner_top_right) {
+        dist = length(pos - vec2(width-radius, radius));
+        if (dist > radius && pos.x > width-radius && pos.y < radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x > width-radius && pos.y < radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    // Bottom left corner
+    if (rounded_corner_bottom_left) {
+        dist = length(pos - vec2(radius, height-radius));
+        if (dist > radius && pos.x < radius && pos.y > height-radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x < radius && pos.y > height-radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    // Bottom right corner
+    if (rounded_corner_bottom_right) {
+        dist = length(pos - vec2(width-radius, height-radius));
+        if (dist > radius && pos.x > width-radius && pos.y > height-radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x > width-radius && pos.y > height-radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    COLOR = image;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 13 )
+shader_param/radius_scale = 1.0
+shader_param/rounded_corner_top_left = true
+shader_param/rounded_corner_top_right = true
+shader_param/rounded_corner_bottom_left = true
+shader_param/rounded_corner_bottom_right = true
+shader_param/width = 1.0
+shader_param/height = 1.0
+shader_param/blur_amount = 0.1
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.145098, 0.145098, 0.164706, 1 )
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="Theme" id=12]
+Button/styles/focus = SubResource( 10 )
+Button/styles/hover = SubResource( 10 )
+Button/styles/normal = SubResource( 11 )
 
 [node name="contacto_ls" type="Control"]
 margin_right = 344.0
-margin_bottom = 67.0
+margin_bottom = 77.0
 rect_min_size = Vector2( 344, 67 )
 script = ExtResource( 1 )
 
-[node name="Button" type="Button" parent="."]
+[node name="cambiar_a_panel" type="Panel" parent="."]
+anchor_left = -0.02
+anchor_top = 0.091
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 7.0
-margin_bottom = 7.0
+anchor_bottom = 0.961
+margin_left = 6.88
+margin_top = -0.00700045
+margin_bottom = 0.00299835
 mouse_default_cursor_shape = 2
 theme = SubResource( 4 )
 
@@ -77,19 +153,37 @@ text = "nombre usuario"
 
 [node name="email" type="Label" parent="."]
 margin_left = 64.0
-margin_top = 31.0
+margin_top = 36.0
 margin_right = 299.0
-margin_bottom = 52.0
+margin_bottom = 57.0
 custom_fonts/font = SubResource( 6 )
 text = "correoelectronico@gmail.com"
 
-[node name="lema" type="Label" parent="."]
-margin_left = 64.0
-margin_top = 50.0
-margin_right = 299.0
-margin_bottom = 71.0
-custom_fonts/font = SubResource( 8 )
-text = "Aquí va el lema"
+[node name="imagen_perfil" type="TextureRect" parent="."]
+material = SubResource( 14 )
+margin_left = 9.0
+margin_top = 13.0
+margin_right = 54.0
+margin_bottom = 58.0
+expand = true
+stretch_mode = 6
+
+[node name="visibilidad" type="TextureRect" parent="."]
+margin_left = 41.0
+margin_top = 14.0
+margin_right = 54.0
+margin_bottom = 27.0
+texture = ExtResource( 7 )
+expand = true
+
+[node name="Button" type="Button" parent="."]
+anchor_top = 0.091
+anchor_right = 1.0
+anchor_bottom = 0.961
+margin_top = -0.00699949
+margin_bottom = 0.00299835
+mouse_default_cursor_shape = 2
+theme = SubResource( 12 )
 
 [node name="circle" type="TextureRect" parent="."]
 modulate = Color( 0.87451, 0.717647, 0.0784314, 1 )
@@ -104,12 +198,3 @@ margin_top = 4.0
 margin_right = 356.0
 margin_bottom = 28.0
 texture = ExtResource( 6 )
-
-[node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color( 0.286275, 0.733333, 0.109804, 1 )
-margin_left = 34.0
-margin_top = 17.0
-margin_right = 47.0
-margin_bottom = 30.0
-texture = ExtResource( 7 )
-expand = true

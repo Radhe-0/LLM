@@ -1,7 +1,6 @@
 extends Control
 
 ###########################################
-var contactos
 var websocket_url = "ws://localhost:8765"
 var _client = WebSocketClient.new()
 func _ready():
@@ -35,9 +34,10 @@ func solicitud_al_servidor(accion: String, data: Dictionary):
 
 ###########################################
 
+
 func colocar_contactos(contactos): # agregar animacion y foto de cada contacto
 	var nodos_contacto = []
-	# Empezar animacion
+	# Empezar animacion de carga
 	for contacto in contactos:
 		var contacto_ls = load("res://scenes/contacto_ls/contacto_ls.tscn").instance()
 		contacto_ls.set_nickname_email(contacto[1], contacto[0])
@@ -45,8 +45,26 @@ func colocar_contactos(contactos): # agregar animacion y foto de cada contacto
 	
 	for nodo in nodos_contacto:
 		$contactos_scroll/VBoxContainer.add_child(nodo)
-	# terminar animacion
+	# terminar animacion de carga
 
+func colocar_estados(estados):
+	var nodos_estado = []
+	# Empezar animacion de carga
+	for estado in estados:
+		var email = estado["email"]
+		var fecha_hora = estado["fecha_hora"]
+		var nickname = estado["nickname"]
+		var texto_estado = estado["texto_estado"]
+		var estado_ls = load("res://scenes/estado_ls/estado.tscn").instance()
+		estado_ls.colocar_datos(email, fecha_hora, nickname, texto_estado)
+		nodos_estado.append(estado_ls)
+	
+	for nodo in nodos_estado:
+		$estados_scroll/VBoxContainer.add_child(nodo)
+		nodo.adaptar_panel()
+	# terminar animacion de carga
+
+#####################################################################
 
 func _handler():
 	var datos_recibidos = _client.get_peer(1).get_packet().get_string_from_utf8()
@@ -56,13 +74,13 @@ func _handler():
 		colocar_contactos(respuesta["data"])
 	
 	elif respuesta["tipo"] == "obtener_nickname":
-		print("OBTENIDO")
 		$nickname_edit/nickname.text = respuesta["data"]
 		$copiar_email/email.text = Global.email
 		
 	elif respuesta["tipo"] == "obtener_estados":
-		print("Obteniendo estados...")
+		colocar_estados(respuesta["data"])
 
+########################################################################
 
 func _on_cancelar_boton_pressed():
 	$nuevo_estado.visible = true
