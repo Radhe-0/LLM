@@ -26,6 +26,7 @@ func _closed(was_clean = false):
 func _connected(_proto = ""):
 	solicitud_al_servidor("obtener_nickname", {"email": Global.email})
 	solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
+	solicitud_al_servidor("obtener_estados", {"email": Global.email})
 
 func solicitud_al_servidor(accion: String, data: Dictionary):
 	var solicitud = {"accion": accion, "data": data}
@@ -56,8 +57,22 @@ func _handler():
 	
 	elif respuesta["tipo"] == "obtener_nickname":
 		print("OBTENIDO")
-		$nickname.text = respuesta["data"]
-		$email.text = Global.email
+		$nickname_edit/nickname.text = respuesta["data"]
+		$copiar_email/email.text = Global.email
 		
 	elif respuesta["tipo"] == "obtener_estados":
 		print("Obteniendo estados...")
+
+
+func _on_cancelar_boton_pressed():
+	$nuevo_estado.visible = true
+	$escribir_estado.visible = false
+	$estados_scroll.set_position(Vector2(406, 80))
+	$estados_scroll.set_size(Vector2(598, 501))
+
+
+func _on_nuevo_estado_boton_pressed():
+	$nuevo_estado.visible = false
+	$escribir_estado.visible = true
+	$estados_scroll.set_position(Vector2(406, 157))
+	$estados_scroll.set_size(Vector2(598, 424))

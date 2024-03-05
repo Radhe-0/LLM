@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/circulo.png-417760db98098c6b9ea130dc814f88a4.stex"
+path="res://.import/editar.png-0e0dea42e03cbcd0fa4c557b75fb8bd3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://circulo.png"
-dest_files=[ "res://.import/circulo.png-417760db98098c6b9ea130dc814f88a4.stex" ]
+source_file="res://editar.png"
+dest_files=[ "res://.import/editar.png-0e0dea42e03cbcd0fa4c557b75fb8bd3.stex" ]
 
 [params]
 

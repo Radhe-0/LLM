@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/circulo.png-417760db98098c6b9ea130dc814f88a4.stex"
+path="res://.import/expand.png-6888876886c91d44e483bd4b1b7d08f0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://circulo.png"
-dest_files=[ "res://.import/circulo.png-417760db98098c6b9ea130dc814f88a4.stex" ]
+source_file="res://expand.png"
+dest_files=[ "res://.import/expand.png-6888876886c91d44e483bd4b1b7d08f0.stex" ]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=true
+flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

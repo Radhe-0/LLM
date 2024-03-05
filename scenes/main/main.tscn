@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scenes/contacto_ls/contacto_ls.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/main/main.gd" type="Script" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://gontserrat/Gontserrat-SemiBold.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://gontserrat/Gontserrat-Light.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://scenes/estado_ls/estado.tscn" type="PackedScene" id=6]
+[ext_resource path="res://gontserrat/Gontserrat-Regular.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://editar.png" type="Texture" id=8]
+[ext_resource path="res://pencil.png" type="Texture" id=9]
+[ext_resource path="res://expand.png" type="Texture" id=10]
+[ext_resource path="res://copying.png" type="Texture" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0431373, 0.0431373, 0.0509804, 0.560784 )
@@ -18,43 +23,121 @@ corner_detail = 20
 [sub_resource type="Theme" id=2]
 Panel/styles/panel = SubResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.411765, 0.101961, 0.101961, 1 )
-corner_radius_top_left = 5
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
-corner_radius_bottom_left = 5
+corner_radius_bottom_left = 20
+corner_detail = 20
+
+[sub_resource type="Theme" id=18]
+Panel/styles/panel = SubResource( 17 )
+
+[sub_resource type="StyleBoxEmpty" id=19]
+
+[sub_resource type="Theme" id=20]
+TextEdit/styles/normal = SubResource( 19 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 12
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.411765, 0.101961, 0.101961, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.470588, 0.14902, 0.14902, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 20
 shadow_size = 2
 
-[sub_resource type="Theme" id=14]
-Button/styles/normal = SubResource( 13 )
+[sub_resource type="Theme" id=6]
+Button/styles/focus = SubResource( 5 )
+Button/styles/hover = SubResource( 13 )
+Button/styles/normal = SubResource( 5 )
+Button/styles/pressed = SubResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=28]
+bg_color = Color( 0.113725, 0.113725, 0.12549, 1 )
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 20
+
+[sub_resource type="Theme" id=29]
+Panel/styles/panel = SubResource( 28 )
+
+[sub_resource type="StyleBoxFlat" id=30]
+bg_color = Color( 0.0823529, 0.0823529, 0.0941176, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 20
+
+[sub_resource type="Theme" id=31]
+Panel/styles/panel = SubResource( 30 )
+
+[sub_resource type="DynamicFont" id=32]
+size = 13
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=9]
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 4 )
 
+[sub_resource type="DynamicFont" id=35]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 7 )
+
+[sub_resource type="StyleBoxFlat" id=33]
+bg_color = Color( 0.192157, 0.584314, 0.14902, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
+
+[sub_resource type="Theme" id=34]
+Panel/styles/panel = SubResource( 33 )
+
 [sub_resource type="DynamicFont" id=12]
+size = 13
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 5 )
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id=21]
 
 [sub_resource type="StyleBoxEmpty" id=4]
 
-[sub_resource type="StyleBoxEmpty" id=5]
+[sub_resource type="StyleBoxEmpty" id=26]
 
-[sub_resource type="StyleBoxEmpty" id=6]
+[sub_resource type="StyleBoxEmpty" id=27]
 
 [sub_resource type="StyleBoxEmpty" id=7]
 
 [sub_resource type="Theme" id=8]
-VScrollBar/styles/grabber = SubResource( 3 )
+VScrollBar/styles/grabber = SubResource( 21 )
 VScrollBar/styles/grabber_highlight = SubResource( 4 )
-VScrollBar/styles/grabber_pressed = SubResource( 5 )
-VScrollBar/styles/scroll = SubResource( 6 )
+VScrollBar/styles/grabber_pressed = SubResource( 26 )
+VScrollBar/styles/scroll = SubResource( 27 )
 VScrollBar/styles/scroll_focus = SubResource( 7 )
 
 [sub_resource type="StyleBoxFlat" id=15]
@@ -74,7 +157,7 @@ margin_bottom = 600.0
 color = Color( 0.0823529, 0.0823529, 0.0941176, 1 )
 
 [node name="circulo" type="TextureRect" parent="."]
-modulate = Color( 0.101961, 0.235294, 0.411765, 1 )
+modulate = Color( 0.219608, 0.223529, 0.235294, 1 )
 margin_left = -278.0
 margin_top = 193.0
 margin_right = 522.0
@@ -82,11 +165,19 @@ margin_bottom = 993.0
 texture = ExtResource( 3 )
 
 [node name="circulo2" type="TextureRect" parent="."]
-modulate = Color( 0.101961, 0.235294, 0.411765, 1 )
+modulate = Color( 0.219608, 0.223529, 0.235294, 1 )
 margin_left = 459.0
 margin_top = -571.0
 margin_right = 1259.0
 margin_bottom = 229.0
+texture = ExtResource( 3 )
+
+[node name="circulo3" type="TextureRect" parent="."]
+modulate = Color( 0.219608, 0.223529, 0.235294, 1 )
+margin_left = 617.0
+margin_top = 421.0
+margin_right = 1417.0
+margin_bottom = 1221.0
 texture = ExtResource( 3 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -105,41 +196,191 @@ margin_right = 998.0
 margin_bottom = 580.0
 theme = SubResource( 2 )
 
-[node name="button_nickname" type="Button" parent="."]
-margin_left = 34.0
+[node name="escribir_estado" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="panel_escribir_estado" type="Panel" parent="escribir_estado"]
+margin_left = 406.0
 margin_top = 17.0
-margin_right = 391.0
-margin_bottom = 48.0
-theme = SubResource( 14 )
+margin_right = 1004.0
+margin_bottom = 106.0
+theme = SubResource( 18 )
 
-[node name="nickname" type="Label" parent="."]
-margin_left = 42.0
-margin_top = 23.0
-margin_right = 381.0
-margin_bottom = 44.0
-custom_fonts/font = SubResource( 9 )
-text = "Nickname"
+[node name="escribir_estado" type="TextEdit" parent="escribir_estado"]
+margin_left = 416.0
+margin_top = 27.0
+margin_right = 997.0
+margin_bottom = 97.0
+theme = SubResource( 20 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/line_spacing = 0
+custom_fonts/font = SubResource( 3 )
+text = "Estoy agradecido por las oportunidades, la salud y el apoyo de mi familia y amigos. También por los logros en mi carrera. Me encanta aprender y compartir conocimientos en las redes sociales. La vida es un camino lleno de retos y oportunidades, así que siempre mantengo una actitud positiva. #agradecimiento #crecimientopersonal #redessociales #positividad #agradecimiento #crecimientopersonal #redessociales #positividad #agradecimiento #crecimientopersonal #redessociales #positividad"
+wrap_enabled = true
+caret_blink = true
 
-[node name="email" type="Label" parent="."]
-margin_left = 149.0
-margin_top = 59.0
-margin_right = 390.0
-margin_bottom = 80.0
+[node name="cancelar_boton" type="Button" parent="escribir_estado"]
+margin_left = 406.0
+margin_top = 119.0
+margin_right = 572.0
+margin_bottom = 144.0
+theme = SubResource( 6 )
+text = "Cancelar"
+
+[node name="publicar_boton" type="Button" parent="escribir_estado"]
+margin_left = 587.0
+margin_top = 119.0
+margin_right = 753.0
+margin_bottom = 144.0
+theme = SubResource( 6 )
+text = "Publicar"
+
+[node name="nuevo_estado" type="Control" parent="."]
+
+[node name="panel_nuevo_estado" type="Panel" parent="nuevo_estado"]
+margin_left = 406.0
+margin_top = 17.0
+margin_right = 987.0
+margin_bottom = 69.0
+theme = SubResource( 29 )
+
+[node name="panel_nuevo_estado2" type="Panel" parent="nuevo_estado"]
+margin_left = 459.0
+margin_top = 26.0
+margin_right = 976.0
+margin_bottom = 61.0
+theme = SubResource( 31 )
+
+[node name="Label" type="Label" parent="nuevo_estado"]
+margin_left = 476.0
+margin_top = 37.0
+margin_right = 516.0
+margin_bottom = 51.0
+custom_colors/font_color = Color( 0.607843, 0.607843, 0.607843, 1 )
+custom_fonts/font = SubResource( 32 )
+text = "Publicar un nuevo estado..."
+
+[node name="icono" type="TextureRect" parent="nuevo_estado"]
+modulate = Color( 0.34902, 0.34902, 0.34902, 1 )
+margin_left = 421.0
+margin_top = 29.0
+margin_right = 449.0
+margin_bottom = 58.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+
+[node name="nuevo_estado_boton" type="Button" parent="nuevo_estado"]
+margin_left = 406.0
+margin_top = 17.0
+margin_right = 1004.0
+margin_bottom = 69.0
+mouse_default_cursor_shape = 2
+theme = SubResource( 6 )
+flat = true
+
+[node name="nickname_edit" type="Control" parent="."]
+
+[node name="Panel" type="Panel" parent="nickname_edit"]
+margin_left = 34.0
+margin_top = 16.0
+margin_right = 247.0
+margin_bottom = 45.0
+theme = SubResource( 29 )
+
+[node name="nickname" type="Label" parent="nickname_edit"]
+margin_left = 51.0
+margin_top = 21.0
+margin_right = 215.0
+margin_bottom = 42.0
 custom_fonts/font = SubResource( 9 )
 text = "..."
+clip_text = true
 
-[node name="estado" type="Label" parent="."]
-margin_left = 42.0
-margin_top = 59.0
-margin_right = 127.0
-margin_bottom = 85.0
+[node name="icono" type="TextureRect" parent="nickname_edit"]
+margin_left = 222.0
+margin_top = 25.0
+margin_right = 238.0
+margin_bottom = 38.0
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+
+[node name="button_nickname" type="Button" parent="nickname_edit"]
+margin_left = 34.0
+margin_top = 16.0
+margin_right = 247.0
+margin_bottom = 45.0
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="copiar_email" type="Control" parent="."]
+
+[node name="Panel" type="Panel" parent="copiar_email"]
+margin_left = 34.0
+margin_top = 62.0
+margin_right = 381.0
+margin_bottom = 91.0
+theme = SubResource( 29 )
+
+[node name="email" type="Label" parent="copiar_email"]
+margin_left = 51.0
+margin_top = 67.0
+margin_right = 215.0
+margin_bottom = 88.0
+custom_fonts/font = SubResource( 35 )
+text = "..."
+clip_text = true
+
+[node name="icono" type="TextureRect" parent="copiar_email"]
+margin_left = 354.0
+margin_top = 70.0
+margin_right = 370.0
+margin_bottom = 83.0
+texture = ExtResource( 11 )
+expand = true
+stretch_mode = 6
+
+[node name="button_email" type="Button" parent="copiar_email"]
+margin_left = 34.0
+margin_top = 16.0
+margin_right = 247.0
+margin_bottom = 45.0
+mouse_default_cursor_shape = 2
+flat = true
+
+[node name="visibilidad_edit" type="Control" parent="."]
+
+[node name="visibilidad_panel" type="Panel" parent="visibilidad_edit"]
+margin_left = 259.0
+margin_top = 17.0
+margin_right = 381.0
+margin_bottom = 45.0
+theme = SubResource( 34 )
+
+[node name="visibilidad" type="Label" parent="visibilidad_edit"]
+margin_left = 269.0
+margin_top = 23.0
+margin_right = 354.0
+margin_bottom = 40.0
 custom_fonts/font = SubResource( 12 )
 text = "Conectado"
+
+[node name="icono" type="TextureRect" parent="visibilidad_edit"]
+margin_left = 358.0
+margin_top = 26.0
+margin_right = 374.0
+margin_bottom = 39.0
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
 
 [node name="contactos_scroll" type="ScrollContainer" parent="."]
 margin_left = 34.0
 margin_top = 106.0
-margin_right = 381.0
+margin_right = 396.0
 margin_bottom = 581.0
 theme = SubResource( 8 )
 
@@ -167,11 +408,13 @@ margin_top = 308.0
 margin_bottom = 375.0
 
 [node name="estados_scroll" type="ScrollContainer" parent="."]
-margin_left = 417.0
-margin_top = 26.0
-margin_right = 998.0
-margin_bottom = 592.0
+margin_left = 406.0
+margin_top = 80.0
+margin_right = 1004.0
+margin_bottom = 581.0
 theme = SubResource( 16 )
+follow_focus = true
+scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="estados_scroll"]
 margin_right = 581.0
@@ -216,3 +459,6 @@ margin_top = 295.0
 margin_right = 677.0
 margin_bottom = 378.0
 text = "cargando..."
+
+[connection signal="pressed" from="escribir_estado/cancelar_boton" to="." method="_on_cancelar_boton_pressed"]
+[connection signal="pressed" from="nuevo_estado/nuevo_estado_boton" to="." method="_on_nuevo_estado_boton_pressed"]
