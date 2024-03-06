@@ -1,5 +1,12 @@
 extends Control
 
+
+func _on_request_completed(result, response_code, headers, body):
+	if result == HTTPRequest.RESULT_SUCCESS:
+		print("Imagen enviada exitosamente")
+	else:
+		print("Error al enviar la imagen: ", result)
+
 ###########################################
 var websocket_url = "ws://localhost:8765"
 var _client = WebSocketClient.new()
@@ -9,7 +16,7 @@ func _ready():
 	_client.connect("connection_error", self, "_closed")
 	_client.connect("connection_established", self, "_connected")
 	_client.connect("data_received", self, "_handler")
-
+	_client.set_buffers(5000, 2048, 5000, 2048)
 	var err = _client.connect_to_url(websocket_url)
 	if err != OK:
 		print("Unable to connect")
@@ -26,6 +33,7 @@ func _connected(_proto = ""):
 	solicitud_al_servidor("obtener_nickname", {"email": Global.email})
 	solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
 	solicitud_al_servidor("obtener_estados", {"email": Global.email})
+	enviar_imagen(Global.email)
 
 func solicitud_al_servidor(accion: String, data: Dictionary):
 	var solicitud = {"accion": accion, "data": data}
@@ -33,6 +41,14 @@ func solicitud_al_servidor(accion: String, data: Dictionary):
 	_client.get_peer(1).put_var(json_solicitud)  # Envía los datos codificados como JSON
 
 ###########################################
+
+
+func enviar_imagen(email):
+	var image_data = Image.new()
+	image_data.load("res://IMG-20221110-WA0009.jpg")
+	var image_bytes = image_data.save_png_to_buffer()
+	var imagenb64 = Marshalls.raw_to_base64(image_bytes)
+	solicitud_al_servidor("actualizar_imagen", {"imagenb64": imagenb64, "email": email})
 
 
 func colocar_contactos(contactos): # agregar animacion y foto de cada contacto

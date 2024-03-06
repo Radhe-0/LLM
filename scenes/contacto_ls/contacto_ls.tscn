@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/contacto_ls/contacto_ls.gd" type="Script" id=1]
 [ext_resource path="res://gontserrat/Gontserrat-Light.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://gontserrat/Gontserrat-Medium.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://IMG-20221110-WA0009.jpg" type="Texture" id=4]
 [ext_resource path="res://images/new-moon(1).png" type="Texture" id=5]
 [ext_resource path="res://images/exclamation.png" type="Texture" id=6]
 [ext_resource path="res://images/circle16.png" type="Texture" id=7]
@@ -165,6 +166,7 @@ margin_left = 9.0
 margin_top = 13.0
 margin_right = 54.0
 margin_bottom = 58.0
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
