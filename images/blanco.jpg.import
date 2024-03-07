@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/imagensita.png-df247e4ee3c4522d6735203987a99ab3.stex"
+path="res://.import/blanco.jpg-1392cd729cf6a7b6f53e55c039feafba.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://imagensita.png"
-dest_files=[ "res://.import/imagensita.png-df247e4ee3c4522d6735203987a99ab3.stex" ]
+source_file="res://images/blanco.jpg"
+dest_files=[ "res://.import/blanco.jpg-1392cd729cf6a7b6f53e55c039feafba.stex" ]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

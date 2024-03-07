@@ -14,7 +14,7 @@ func comprobar_passwords():
 		return false
 
 
-func _on_HTTPRequest_request_completed(result, response_code, _headers, body):
+func _on_HTTPRequest_request_completed(_result, response_code, _headers, body):
 	if response_code != 200:
 		print("Error. Response code: " + str(response_code))
 	else:
@@ -33,6 +33,8 @@ func _on_HTTPRequest_request_completed(result, response_code, _headers, body):
 				get_tree().change_scene("res://scenes/main/main.tscn")
 			elif respuesta["data"] == "credenciales incorrectas":
 				print("Credenciales incorrectas")
+		
+
 
 
 func _on_registrarse_pressed():
@@ -55,7 +57,6 @@ func _on_registrar_pressed():
 	if passwords_coinciden:
 		var email = $registro/email.text
 		var password = $registro/password.text
-		var use_ssl = false
 		var data_to_send = {"email": email, "password": password}
 		print(data_to_send)
 		var query = JSON.print(data_to_send)

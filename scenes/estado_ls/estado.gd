@@ -7,7 +7,7 @@ var new_min_size = Vector2(581, 66)
 func now() -> Dictionary:
 	return Time.get_datetime_dict_from_system()
 
-func colocar_datos(email, fecha_hora, nickname, texto_estado)->void:
+func colocar_datos(_email, fecha_hora, nickname, texto_estado)->void:
 	$estado_label.text = texto_estado
 	$nickname.text = nickname
 	$fecha_hora.text = Global.calcular_diferencia_tiempo(now(), fecha_hora)

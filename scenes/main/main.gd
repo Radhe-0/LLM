@@ -1,7 +1,7 @@
 extends Control
 
 
-func _on_request_completed(result, response_code, headers, body):
+func _on_request_completed(result, _response_code, _headers, _body):
 	if result == HTTPRequest.RESULT_SUCCESS:
 		print("Imagen enviada exitosamente")
 	else:
@@ -31,9 +31,10 @@ func _closed(was_clean = false):
 
 func _connected(_proto = ""):
 	solicitud_al_servidor("obtener_nickname", {"email": Global.email})
-	solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
+	solicitud_al_servidor("obtener_foto", {"email": Global.email})
+	#solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
 	solicitud_al_servidor("obtener_estados", {"email": Global.email})
-	enviar_imagen(Global.email)
+	#solicitud_al_servidor("obtener_fotos", {"email": Global.email})
 
 func solicitud_al_servidor(accion: String, data: Dictionary):
 	var solicitud = {"accion": accion, "data": data}
@@ -43,12 +44,12 @@ func solicitud_al_servidor(accion: String, data: Dictionary):
 ###########################################
 
 
-func enviar_imagen(email):
+func escoger_foto(email, path):
 	var image_data = Image.new()
-	image_data.load("res://IMG-20221110-WA0009.jpg")
+	image_data.load(path)
 	var image_bytes = image_data.save_png_to_buffer()
 	var imagenb64 = Marshalls.raw_to_base64(image_bytes)
-	solicitud_al_servidor("actualizar_imagen", {"imagenb64": imagenb64, "email": email})
+	solicitud_al_servidor("actualizar_foto", {"imagenb64": imagenb64, "email": email})
 
 
 func colocar_contactos(contactos): # agregar animacion y foto de cada contacto
@@ -80,6 +81,37 @@ func colocar_estados(estados):
 		nodo.adaptar_panel()
 	# terminar animacion de carga
 
+func colocar_foto_usuario(imagenb64):
+	var imagen_data = Marshalls.base64_to_raw(imagenb64)
+	var imagen = Image.new()
+	var resultado = imagen.load_png_from_buffer(imagen_data)
+	if resultado != OK:
+		print("Error al cargar la imagen: ", resultado)
+		return
+	var textura = ImageTexture.new()
+	textura.create_from_image(imagen)
+	Global.foto_perfil = textura
+	var imagen_recortada = Global.recortar_imagen(textura)
+	$cambiar_foto/foto_perfil.texture = imagen_recortada
+
+
+func colocar_fotos_contactos(data_dict):
+	var nodos_contacto = get_tree().get_nodes_in_group("nodos-contacto")
+	
+	for nodo in nodos_contacto:
+		if nodo.get_email() in data_dict:
+			var email = nodo.get_email()
+			var imagenb64 = data_dict[email]
+			var imagen_data = Marshalls.base64_to_raw(imagenb64)
+			var imagen = Image.new()
+			var resultado = imagen.load_png_from_buffer(imagen_data)
+			var textura = ImageTexture.new()
+			textura.create_from_image(imagen)
+			#textura.flags = Texture.FLAG_MIPMAPS  # Activar los mipmaps
+			var imagen_recortada = Global.recortar_imagen(textura)
+			nodo.set_foto(imagen_recortada)
+
+
 #####################################################################
 
 func _handler():
@@ -95,6 +127,15 @@ func _handler():
 		
 	elif respuesta["tipo"] == "obtener_estados":
 		colocar_estados(respuesta["data"])
+	
+	elif respuesta["tipo"] == "actualizar_foto":
+		colocar_foto_usuario(respuesta['data']['imagenb64'])
+	
+	elif respuesta["tipo"] == "obtener_foto":
+		colocar_foto_usuario(respuesta['data']['imagenb64'])
+	
+	elif respuesta['tipo'] == 'obtener_fotos':
+		colocar_fotos_contactos(respuesta['data']['imagenb64'])
 
 ########################################################################
 
@@ -110,3 +151,31 @@ func _on_nuevo_estado_boton_pressed():
 	$escribir_estado.visible = true
 	$estados_scroll.set_position(Vector2(406, 157))
 	$estados_scroll.set_size(Vector2(598, 424))
+
+
+func _on_icono_foto_pressed():
+	$FileDialog.popup()
+
+
+func _on_FileDialog_confirmed():
+	print("asd")
+
+
+func _on_FileDialog_file_selected(path):
+	escoger_foto(Global.email, path) 
+
+
+func _on_foto_perfil_mouse_entered():
+	$cambiar_foto/icono_foto.visible = true
+
+func _on_foto_perfil_mouse_exited():
+	$cambiar_foto/icono_foto.visible = false
+
+
+func _on_icono_ag_contacto_pressed():
+	$agregar_contacto.visible = true
+
+func _on_Button_pressed():
+	var email_contacto = $agregar_contacto/LineEdit.text
+	$agregar_contacto.visible = false
+	solicitud_al_servidor('agregar_contacto', {"email_contacto": email_contacto, "email": Global.email})

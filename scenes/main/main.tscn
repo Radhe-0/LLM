@@ -1,15 +1,16 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://images/circulo.png" type="Texture" id=1]
 [ext_resource path="res://scenes/main/main.gd" type="Script" id=2]
 [ext_resource path="res://images/editar.png" type="Texture" id=3]
 [ext_resource path="res://gontserrat/Gontserrat-SemiBold.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://gontserrat/Gontserrat-Light.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://images/expand.png" type="Texture" id=6]
+[ext_resource path="res://images/received_1251088992492630.jpeg" type="Texture" id=6]
 [ext_resource path="res://gontserrat/Gontserrat-Regular.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://images/pencil.png" type="Texture" id=8]
 [ext_resource path="res://images/copying.png" type="Texture" id=9]
 [ext_resource path="res://images/add-image.png" type="Texture" id=10]
+[ext_resource path="res://images/blanco.jpg" type="Texture" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0431373, 0.0431373, 0.0509804, 0.560784 )
@@ -116,16 +117,140 @@ corner_detail = 20
 [sub_resource type="Theme" id=34]
 Panel/styles/panel = SubResource( 33 )
 
-[sub_resource type="StyleBoxFlat" id=36]
-bg_color = Color( 0.113725, 0.113725, 0.12549, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
+[sub_resource type="Shader" id=40]
+code = "shader_type canvas_item;
 
-[sub_resource type="Theme" id=37]
-Panel/styles/panel = SubResource( 36 )
+uniform float radius_scale: hint_range(0.0, 1.0, 0.1) = 0.1;
+uniform bool rounded_corner_top_left = true;
+uniform bool rounded_corner_top_right = true;
+uniform bool rounded_corner_bottom_left = true;
+uniform bool rounded_corner_bottom_right = true;
+uniform float width = 1.0;
+uniform float height = 1.0;
+uniform float blur_amount: hint_range(0.0, 1.0, 0.1) = 0.1;
+
+void fragment() {
+    vec4 image = texture(TEXTURE, UV);
+    vec2 pos = vec2(UV.x*width, UV.y*height);
+    float radius = min(width, height)*radius_scale/2.0;
+    float dist;
+    float blur = min(width, height)*blur_amount/2.0;
+    
+    // Top left corner
+    if (rounded_corner_top_left) {
+        dist = length(pos - vec2(radius));
+        if (dist > radius && pos.x < radius && pos.y < radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x < radius && pos.y < radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    // Top right corner
+    if (rounded_corner_top_right) {
+        dist = length(pos - vec2(width-radius, radius));
+        if (dist > radius && pos.x > width-radius && pos.y < radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x > width-radius && pos.y < radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    // Bottom left corner
+    if (rounded_corner_bottom_left) {
+        dist = length(pos - vec2(radius, height-radius));
+        if (dist > radius && pos.x < radius && pos.y > height-radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x < radius && pos.y > height-radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    // Bottom right corner
+    if (rounded_corner_bottom_right) {
+        dist = length(pos - vec2(width-radius, height-radius));
+        if (dist > radius && pos.x > width-radius && pos.y > height-radius) {
+            image.a = 0.0;
+        } else if (dist > radius - blur && pos.x > width-radius && pos.y > height-radius) {
+            image.a = smoothstep(radius, radius - blur, dist);
+        }
+    }
+    
+    COLOR = image;
+}"
+
+[sub_resource type="ShaderMaterial" id=41]
+shader = SubResource( 40 )
+shader_param/radius_scale = 0.6
+shader_param/rounded_corner_top_left = true
+shader_param/rounded_corner_top_right = true
+shader_param/rounded_corner_bottom_left = true
+shader_param/rounded_corner_bottom_right = true
+shader_param/width = 1.0
+shader_param/height = 1.0
+shader_param/blur_amount = 0.1
+
+[sub_resource type="Shader" id=38]
+code = "shader_type canvas_item;
+
+uniform float smoothness : hint_range(0.0, 1.0) = 0.1;
+
+void fragment() {
+    vec2 uv = UV;
+    
+    // Calcula la distancia desde el centro de la imagen
+    float dist = distance(uv, vec2(0.5, 0.5));
+    
+    // Define el radio del círculo (0.5 para un círculo perfecto)
+    float radius = 0.5;
+    
+    // Calcula el factor de suavizado basado en la distancia al borde del círculo
+    float smoothFactor = smoothstep(radius, radius - smoothness, dist);
+    
+    // Obtiene el color de la textura
+    vec4 texColor = texture(TEXTURE, uv);
+    
+    // Aplica el factor de suavizado a la transparencia del color
+    texColor.a *= smoothFactor;
+    
+    // Asigna el color final al píxel
+    COLOR = texColor;
+}"
+
+[sub_resource type="ShaderMaterial" id=39]
+shader = SubResource( 38 )
+shader_param/smoothness = 0.05
+
+[sub_resource type="Shader" id=42]
+code = "shader_type canvas_item;
+
+uniform float smoothness : hint_range(0.0, 1.0) = 0.1;
+
+void fragment() {
+    vec2 uv = UV;
+    
+    // Calcula la distancia desde el centro de la imagen
+    float dist = distance(uv, vec2(0.5, 0.5));
+    
+    // Define el radio del círculo (0.5 para un círculo perfecto)
+    float radius = 0.5;
+    
+    // Calcula el factor de suavizado basado en la distancia al borde del círculo
+    float smoothFactor = smoothstep(radius, radius - smoothness, dist);
+    
+    // Obtiene el color de la textura
+    vec4 texColor = texture(TEXTURE, uv);
+    
+    // Aplica el factor de suavizado a la transparencia del color
+    texColor.a *= smoothFactor;
+    
+    // Asigna el color final al píxel
+    COLOR = texColor;
+}"
+
+[sub_resource type="ShaderMaterial" id=43]
+shader = SubResource( 42 )
+shader_param/smoothness = 0.01
 
 [sub_resource type="StyleBoxEmpty" id=21]
 
@@ -151,8 +276,9 @@ bg_color = Color( 1, 1, 1, 1 )
 VScrollBar/styles/grabber = SubResource( 15 )
 
 [node name="Control" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 2.276
+anchor_bottom = 1.2
+margin_right = -0.199951
 script = ExtResource( 2 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -288,35 +414,35 @@ flat = true
 [node name="nickname_edit" type="Control" parent="."]
 
 [node name="Panel" type="Panel" parent="nickname_edit"]
-margin_left = 34.0
-margin_top = 16.0
-margin_right = 247.0
-margin_bottom = 45.0
+margin_left = 89.0
+margin_top = 20.0
+margin_right = 302.0
+margin_bottom = 49.0
 theme = SubResource( 29 )
 
 [node name="nickname" type="Label" parent="nickname_edit"]
-margin_left = 51.0
-margin_top = 21.0
-margin_right = 215.0
-margin_bottom = 42.0
+margin_left = 106.0
+margin_top = 25.0
+margin_right = 270.0
+margin_bottom = 46.0
 custom_fonts/font = SubResource( 9 )
 text = "..."
 clip_text = true
 
 [node name="icono" type="TextureRect" parent="nickname_edit"]
-margin_left = 220.0
-margin_top = 25.0
-margin_right = 236.0
-margin_bottom = 38.0
+margin_left = 275.0
+margin_top = 29.0
+margin_right = 291.0
+margin_bottom = 42.0
 texture = ExtResource( 8 )
 expand = true
 stretch_mode = 6
 
 [node name="button_nickname" type="Button" parent="nickname_edit"]
-margin_left = 34.0
-margin_top = 16.0
-margin_right = 247.0
-margin_bottom = 45.0
+margin_left = 89.0
+margin_top = 20.0
+margin_right = 302.0
+margin_bottom = 49.0
 mouse_default_cursor_shape = 2
 flat = true
 
@@ -324,70 +450,88 @@ flat = true
 
 [node name="Panel" type="Panel" parent="copiar_email"]
 margin_left = 34.0
-margin_top = 62.0
+margin_top = 74.0
 margin_right = 381.0
-margin_bottom = 91.0
+margin_bottom = 103.0
 theme = SubResource( 29 )
 
 [node name="email" type="Label" parent="copiar_email"]
 margin_left = 51.0
-margin_top = 67.0
-margin_right = 215.0
-margin_bottom = 88.0
+margin_top = 79.0
+margin_right = 351.0
+margin_bottom = 100.0
 custom_fonts/font = SubResource( 35 )
 text = "..."
 clip_text = true
 
 [node name="icono" type="TextureRect" parent="copiar_email"]
 margin_left = 354.0
-margin_top = 70.0
+margin_top = 82.0
 margin_right = 370.0
-margin_bottom = 83.0
+margin_bottom = 95.0
 texture = ExtResource( 9 )
 expand = true
 stretch_mode = 6
 
 [node name="button_email" type="Button" parent="copiar_email"]
 margin_left = 34.0
-margin_top = 61.0
+margin_top = 73.0
 margin_right = 378.0
-margin_bottom = 90.0
+margin_bottom = 102.0
 mouse_default_cursor_shape = 2
 flat = true
 
 [node name="visibilidad_edit" type="Control" parent="."]
 
 [node name="visibilidad_panel" type="Panel" parent="visibilidad_edit"]
-margin_left = 318.0
-margin_top = 17.0
-margin_right = 381.0
-margin_bottom = 45.0
+margin_left = 317.0
+margin_top = 20.0
+margin_right = 380.0
+margin_bottom = 48.0
 theme = SubResource( 34 )
 
-[node name="icono" type="TextureRect" parent="visibilidad_edit"]
-margin_left = 358.0
-margin_top = 26.0
-margin_right = 374.0
-margin_bottom = 39.0
-texture = ExtResource( 6 )
+[node name="icono_ag_contacto" type="TextureButton" parent="visibilidad_edit"]
+margin_left = 317.0
+margin_top = 20.0
+margin_right = 380.0
+margin_bottom = 48.0
 expand = true
 stretch_mode = 6
 
 [node name="cambiar_foto" type="Control" parent="."]
 
-[node name="visibilidad_panel" type="Panel" parent="cambiar_foto"]
-margin_left = 255.0
-margin_top = 17.0
-margin_right = 311.0
-margin_bottom = 45.0
-theme = SubResource( 37 )
+[node name="visibilidad_panel" type="TextureRect" parent="cambiar_foto"]
+visible = false
+modulate = Color( 0.113725, 0.113725, 0.12549, 1 )
+material = SubResource( 41 )
+margin_left = 36.0
+margin_top = 13.0
+margin_right = 91.0
+margin_bottom = 68.0
+texture = ExtResource( 11 )
+expand = true
 
-[node name="icono" type="TextureButton" parent="cambiar_foto"]
-margin_left = 255.0
-margin_top = 17.0
-margin_right = 311.0
-margin_bottom = 45.0
-texture_normal = ExtResource( 10 )
+[node name="foto_perfil" type="TextureRect" parent="cambiar_foto"]
+material = SubResource( 39 )
+margin_left = 36.0
+margin_top = 13.0
+margin_right = 91.0
+margin_bottom = 68.0
+expand = true
+stretch_mode = 6
+
+[node name="Received1251088992492630" type="Sprite" parent="cambiar_foto"]
+material = SubResource( 43 )
+position = Vector2( 509, 307 )
+scale = Vector2( 0.225, 0.225 )
+texture = ExtResource( 6 )
+
+[node name="icono_foto" type="TextureButton" parent="cambiar_foto"]
+margin_left = 36.0
+margin_top = 13.0
+margin_right = 91.0
+margin_bottom = 68.0
+texture_hover = ExtResource( 10 )
 expand = true
 stretch_mode = 3
 
@@ -430,5 +574,48 @@ margin_right = 677.0
 margin_bottom = 378.0
 text = "cargando..."
 
+[node name="agregar_contacto" type="Control" parent="."]
+visible = false
+
+[node name="fondo_oscuro" type="ColorRect" parent="agregar_contacto"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.47451 )
+
+[node name="Panel" type="Panel" parent="agregar_contacto"]
+margin_left = 291.0
+margin_top = 193.0
+margin_right = 649.0
+margin_bottom = 263.0
+
+[node name="LineEdit" type="LineEdit" parent="agregar_contacto"]
+margin_left = 311.0
+margin_top = 209.0
+margin_right = 525.0
+margin_bottom = 246.0
+placeholder_text = "email"
+
+[node name="Button" type="Button" parent="agregar_contacto"]
+margin_left = 545.0
+margin_top = 209.0
+margin_right = 632.0
+margin_bottom = 246.0
+text = "Agregar"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_left = 291.0
+margin_top = 109.0
+margin_right = 807.0
+margin_bottom = 465.0
+rect_min_size = Vector2( 150, 52.5 )
+window_title = "Abrir un Archivo"
+mode = 0
+access = 2
+
 [connection signal="pressed" from="escribir_estado/cancelar_boton" to="." method="_on_cancelar_boton_pressed"]
 [connection signal="pressed" from="nuevo_estado/nuevo_estado_boton" to="." method="_on_nuevo_estado_boton_pressed"]
+[connection signal="pressed" from="visibilidad_edit/icono_ag_contacto" to="." method="_on_icono_ag_contacto_pressed"]
+[connection signal="pressed" from="cambiar_foto/icono_foto" to="." method="_on_icono_foto_pressed"]
+[connection signal="pressed" from="agregar_contacto/Button" to="." method="_on_Button_pressed"]
+[connection signal="confirmed" from="FileDialog" to="." method="_on_FileDialog_confirmed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
