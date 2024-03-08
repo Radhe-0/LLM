@@ -32,9 +32,9 @@ func _closed(was_clean = false):
 func _connected(_proto = ""):
 	solicitud_al_servidor("obtener_nickname", {"email": Global.email})
 	solicitud_al_servidor("obtener_foto", {"email": Global.email})
-	#solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
+	solicitud_al_servidor("obtener_contactos", {"email":  Global.email})
 	solicitud_al_servidor("obtener_estados", {"email": Global.email})
-	#solicitud_al_servidor("obtener_fotos", {"email": Global.email})
+	solicitud_al_servidor("obtener_fotos", {"email": Global.email})
 
 func solicitud_al_servidor(accion: String, data: Dictionary):
 	var solicitud = {"accion": accion, "data": data}
@@ -104,7 +104,7 @@ func colocar_fotos_contactos(data_dict):
 			var imagenb64 = data_dict[email]
 			var imagen_data = Marshalls.base64_to_raw(imagenb64)
 			var imagen = Image.new()
-			var resultado = imagen.load_png_from_buffer(imagen_data)
+			var resultado = imagen.load_jpg_from_buffer(imagen_data)
 			var textura = ImageTexture.new()
 			textura.create_from_image(imagen)
 			#textura.flags = Texture.FLAG_MIPMAPS  # Activar los mipmaps

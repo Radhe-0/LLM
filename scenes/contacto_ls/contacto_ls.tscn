@@ -37,75 +37,33 @@ font_data = ExtResource( 2 )
 [sub_resource type="Shader" id=13]
 code = "shader_type canvas_item;
 
-uniform float radius_scale: hint_range(0.0, 1.0, 0.1) = 0.1;
-uniform bool rounded_corner_top_left = true;
-uniform bool rounded_corner_top_right = true;
-uniform bool rounded_corner_bottom_left = true;
-uniform bool rounded_corner_bottom_right = true;
-uniform float width = 1.0;
-uniform float height = 1.0;
-uniform float blur_amount: hint_range(0.0, 1.0, 0.1) = 0.1;
+uniform float smoothness : hint_range(0.0, 1.0) = 0.1;
 
 void fragment() {
-    vec4 image = texture(TEXTURE, UV);
-    vec2 pos = vec2(UV.x*width, UV.y*height);
-    float radius = min(width, height)*radius_scale/2.0;
-    float dist;
-    float blur = min(width, height)*blur_amount/2.0;
+    vec2 uv = UV;
     
-    // Top left corner
-    if (rounded_corner_top_left) {
-        dist = length(pos - vec2(radius));
-        if (dist > radius && pos.x < radius && pos.y < radius) {
-            image.a = 0.0;
-        } else if (dist > radius - blur && pos.x < radius && pos.y < radius) {
-            image.a = smoothstep(radius, radius - blur, dist);
-        }
-    }
+    // Calcula la distancia desde el centro de la imagen
+    float dist = distance(uv, vec2(0.5, 0.5));
     
-    // Top right corner
-    if (rounded_corner_top_right) {
-        dist = length(pos - vec2(width-radius, radius));
-        if (dist > radius && pos.x > width-radius && pos.y < radius) {
-            image.a = 0.0;
-        } else if (dist > radius - blur && pos.x > width-radius && pos.y < radius) {
-            image.a = smoothstep(radius, radius - blur, dist);
-        }
-    }
+    // Define el radio del círculo (0.5 para un círculo perfecto)
+    float radius = 0.5;
     
-    // Bottom left corner
-    if (rounded_corner_bottom_left) {
-        dist = length(pos - vec2(radius, height-radius));
-        if (dist > radius && pos.x < radius && pos.y > height-radius) {
-            image.a = 0.0;
-        } else if (dist > radius - blur && pos.x < radius && pos.y > height-radius) {
-            image.a = smoothstep(radius, radius - blur, dist);
-        }
-    }
+    // Calcula el factor de suavizado basado en la distancia al borde del círculo
+    float smoothFactor = smoothstep(radius, radius - smoothness, dist);
     
-    // Bottom right corner
-    if (rounded_corner_bottom_right) {
-        dist = length(pos - vec2(width-radius, height-radius));
-        if (dist > radius && pos.x > width-radius && pos.y > height-radius) {
-            image.a = 0.0;
-        } else if (dist > radius - blur && pos.x > width-radius && pos.y > height-radius) {
-            image.a = smoothstep(radius, radius - blur, dist);
-        }
-    }
+    // Obtiene el color de la textura
+    vec4 texColor = texture(TEXTURE, uv);
     
-    COLOR = image;
+    // Aplica el factor de suavizado a la transparencia del color
+    texColor.a *= smoothFactor;
+    
+    // Asigna el color final al píxel
+    COLOR = texColor;
 }"
 
 [sub_resource type="ShaderMaterial" id=14]
 shader = SubResource( 13 )
-shader_param/radius_scale = 1.0
-shader_param/rounded_corner_top_left = true
-shader_param/rounded_corner_top_right = true
-shader_param/rounded_corner_bottom_left = true
-shader_param/rounded_corner_bottom_right = true
-shader_param/width = 1.0
-shader_param/height = 1.0
-shader_param/blur_amount = 0.1
+shader_param/smoothness = 0.04
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.145098, 0.145098, 0.164706, 1 )

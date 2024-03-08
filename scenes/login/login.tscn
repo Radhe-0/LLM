@@ -289,7 +289,7 @@ custom_colors/cursor_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_selected = Color( 0.792157, 0.792157, 0.792157, 1 )
 custom_colors/font_color = Color( 0.113725, 0.113725, 0.113725, 1 )
 custom_fonts/font = SubResource( 22 )
-text = "juan@email.com"
+text = "asd"
 placeholder_text = "Email"
 caret_blink = true
 
@@ -304,7 +304,7 @@ custom_colors/cursor_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_selected = Color( 0.792157, 0.792157, 0.792157, 1 )
 custom_colors/font_color = Color( 0.113725, 0.113725, 0.113725, 1 )
 custom_fonts/font = SubResource( 8 )
-text = "contraseña1"
+text = "123"
 secret = true
 placeholder_text = "Password"
 caret_blink = true
