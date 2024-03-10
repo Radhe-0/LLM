@@ -466,9 +466,9 @@ custom_constants/separation = 0
 
 [node name="estados_scroll" type="ScrollContainer" parent="."]
 margin_left = 406.0
-margin_top = 80.0
+margin_top = 83.0
 margin_right = 1004.0
-margin_bottom = 581.0
+margin_bottom = 578.0
 theme = SubResource( 16 )
 follow_focus = true
 scroll_horizontal_enabled = false
